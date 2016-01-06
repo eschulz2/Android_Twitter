@@ -47,16 +47,16 @@ public class MainActivity extends ActionBarActivity {
 //      }
 //    });
 
-    ParseQuery<ParseObject> query = ParseQuery.getQuery("Score");
-    query.getInBackground("rn3Te2chtO", new GetCallback<ParseObject>() {
-      @Override
-      public void done(ParseObject object, ParseException e) {
-        if (e == null) {
-          object.put("score", 249);
-          object.saveInBackground();
-        }
-      }
-    });
+//    ParseQuery<ParseObject> query = ParseQuery.getQuery("Score");
+//    query.getInBackground("rn3Te2chtO", new GetCallback<ParseObject>() {
+//      @Override
+//      public void done(ParseObject object, ParseException e) {
+//        if (e == null) {
+//          object.put("score", 249);
+//          object.saveInBackground();
+//        }
+//      }
+//    });
   }
 
   @Override
