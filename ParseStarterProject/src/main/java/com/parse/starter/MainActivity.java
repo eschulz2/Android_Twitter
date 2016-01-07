@@ -13,47 +13,73 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
+
+  ArrayList<String> usernames;
+  ArrayAdapter arrayAdapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    usernames = new ArrayList<String>();
+    arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, usernames);
+
+    final ListView userList = (ListView) findViewById(R.id.userList);
+
     ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
-//    ParseObject score = new ParseObject("Score");
-//    score.put("username", "Steph");
-//    score.put("score", 250);
-//    score.saveInBackground(new SaveCallback() {
-//      @Override
-//      public void done(ParseException e) {
-//
-//        if (e == null) {
-//          Log.i("SaveInBackground", "Successful");
-//        } else {
-//          Log.i("SaveInBackground", "Failed");
-//          e.printStackTrace();
-//        }
-//      }
-//    });
+    ParseQuery<ParseUser> query = ParseUser.getQuery();
 
-//    ParseQuery<ParseObject> query = ParseQuery.getQuery("Score");
-//    query.getInBackground("rn3Te2chtO", new GetCallback<ParseObject>() {
+    query.addAscendingOrder("username");
+    query.findInBackground(new FindCallback<ParseUser>() {
+      @Override
+      public void done(List<ParseUser> objects, ParseException e) {
+        if (e == null) {
+          if (objects.size() > 0) {
+
+            for (ParseUser user : objects) {
+              usernames.add(user.getUsername());
+            }
+
+
+            userList.setAdapter(arrayAdapter);
+          }
+        }
+      }
+    });
+
+
+
+
+//    query.whereEqualTo("username", "Kirsten");
+//    query.setLimit(1);
+//
+//    query.findInBackground(new FindCallback<ParseObject>() {
 //      @Override
-//      public void done(ParseObject object, ParseException e) {
+//      public void done(List<ParseObject> objects, ParseException e) {
 //        if (e == null) {
-//          object.put("score", 249);
-//          object.saveInBackground();
+//          Log.i("findInBackground", "Retrieved " + objects.size() + " results" );
+//          for (ParseObject object : objects) {
+//            Log.i("findInBackgroundUser", String.valueOf(object.get("score")));
+//          }
 //        }
 //      }
 //    });
