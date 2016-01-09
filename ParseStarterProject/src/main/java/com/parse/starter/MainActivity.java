@@ -31,7 +31,7 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
 
-  ArrayList<String> usernames;
+  ArrayList<Integer> scores;
   ArrayAdapter arrayAdapter;
 
   @Override
@@ -39,24 +39,24 @@ public class MainActivity extends ActionBarActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    usernames = new ArrayList<String>();
-    arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, usernames);
+    scores = new ArrayList<Integer>();
+    arrayAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_expandable_list_item_1, scores);
 
     final ListView userList = (ListView) findViewById(R.id.userList);
 
     ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
-    ParseQuery<ParseUser> query = ParseUser.getQuery();
+    ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Score");
 
-    query.addAscendingOrder("username");
-    query.findInBackground(new FindCallback<ParseUser>() {
+    query.addAscendingOrder("createdAt");
+    query.findInBackground(new FindCallback<ParseObject>() {
       @Override
-      public void done(List<ParseUser> objects, ParseException e) {
+      public void done(List<ParseObject> objects, ParseException e) {
         if (e == null) {
           if (objects.size() > 0) {
 
-            for (ParseUser user : objects) {
-              usernames.add(user.getUsername());
+            for (ParseObject score : objects) {
+              scores.add(score.getInt("score"));
             }
 
 
