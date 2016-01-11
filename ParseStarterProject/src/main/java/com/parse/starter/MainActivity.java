@@ -8,11 +8,14 @@
  */
 package com.parse.starter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -31,24 +34,39 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
 
-  ArrayList<Integer> scores;
+  ArrayList<String> scores;
+  ArrayList<String> materials;
   ArrayAdapter arrayAdapter;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    scores = new ArrayList<Integer>();
-    arrayAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_expandable_list_item_1, scores);
+    scores = new ArrayList<String>();
+    materials = new ArrayList<String>();
+    arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, scores);
+
 
     final ListView userList = (ListView) findViewById(R.id.userList);
+
+    userList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Intent i = new Intent(getApplicationContext(), PostFeed.class);
+        i.putExtra("content", materials.get(position));
+        startActivity(i);
+
+      }
+    });
 
     ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
     ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Score");
 
-    query.addAscendingOrder("createdAt");
+    query.addDescendingOrder("createdAt");
     query.findInBackground(new FindCallback<ParseObject>() {
       @Override
       public void done(List<ParseObject> objects, ParseException e) {
@@ -56,7 +74,8 @@ public class MainActivity extends ActionBarActivity {
           if (objects.size() > 0) {
 
             for (ParseObject score : objects) {
-              scores.add(score.getInt("score"));
+              scores.add(score.getString("text"));
+              materials.add(score.getString("content"));
             }
 
 

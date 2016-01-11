@@ -41,6 +41,49 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.parse.starter.TextFeed"
+            android:label="@string/title_activity_text_feed"
+            android:parentActivityName="com.parse.starter.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.parse.starter.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.parse.starter.ContentActivity"
+            android:label="@string/title_activity_content"
+            android:parentActivityName="com.parse.starter.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.parse.starter.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.parse.starter.PageFeed"
+            android:label="@string/title_activity_page_feed"
+            android:parentActivityName="com.parse.starter.MainActivity"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.parse.starter.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.parse.starter.PostFeed"
+            android:label="@string/title_activity_post_feed"
+            android:parentActivityName="com.parse.starter.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.parse.starter.MainActivity" />
+        </activity>
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>
